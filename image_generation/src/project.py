@@ -166,12 +166,12 @@ if __name__ == '__main__':
 # TODO add option for car data set
     if HPARAMS.dataset == 'mnist':
         HPARAMS.image_shape = (28, 28, 1)
-        from mnist_input import model_input
-        from mnist_utils import view_image, save_image
+        #from mnist_input import model_input
+        #from mnist_utils import view_image, save_image
     elif HPARAMS.dataset == 'celebA':
         HPARAMS.image_shape = (64, 64, 3)
-        from celebA_input import model_input
-        from celebA_utils import view_image, save_image
+        #from celebA_input import model_input
+        #from celebA_utils import view_image, save_image
     elif HPARAMS.dataset == 'car':
         HPARAMS.image_shape = (64, 64, 3)
         from car_input import model_input
