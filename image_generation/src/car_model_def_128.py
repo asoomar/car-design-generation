@@ -29,7 +29,7 @@ def dcgan_discrim(x_hat_batch, hparams):
     prob = tf.reshape(prob, [-1])
     prob = prob[:hparams.batch_size]
 
-    restore_vars = car_dcgan_model_def.gen_restore_vars()
+    restore_vars = scope_variables('discriminator')
     restore_dict = {var.op.name: var for var in tf.global_variables() if var.op.name in restore_vars}
     restore_path = tf.train.latest_checkpoint(hparams.pretrained_model_dir)
 
@@ -47,10 +47,13 @@ def dcgan_gen(z, hparams):
     x_hat_full = car_dcgan_model_def.generator(model_hparams, z_full, train=False, reuse=False)
     x_hat_batch = tf.reshape(x_hat_full[:hparams.batch_size], [hparams.batch_size, 64*64*3])
 
-    restore_vars = car_dcgan_model_def.gen_restore_vars()
+    restore_vars = scope_variables('generator')
     restore_dict = {var.op.name: var for var in tf.global_variables() if var.op.name in restore_vars}
     restore_path = tf.train.latest_checkpoint(hparams.pretrained_model_dir)
 
     return x_hat_batch, restore_dict, restore_path
 
-
+def scope_variables(name):
+    with tf.variable_scope(name):
+        return tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES,
+                       scope=tf.get_variable_scope().name)

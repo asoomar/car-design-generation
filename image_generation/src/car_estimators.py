@@ -140,10 +140,12 @@ def dcgan_estimator(hparams):
     y_batch = tf.placeholder(tf.float32, shape=(hparams.batch_size, hparams.num_measurements), name='y_batch')
 
     # Create the generator
+    #TODO update car_model_def to new version
     z_batch = tf.Variable(tf.random_normal([hparams.batch_size, 100]), name='z_batch')
     x_hat_batch, restore_dict_gen, restore_path_gen = car_model_def.dcgan_gen(z_batch, hparams)
 
     # Create the discriminator
+    #TODO update car_model_def to new version
     prob, restore_dict_discrim, restore_path_discrim = car_model_def.dcgan_discrim(x_hat_batch, hparams)
 
     # measure the estimate
@@ -259,15 +261,15 @@ def k_sparse_wavelet_estimator(hparams): #pylint: disable = W0613
 
 def get_wavelet(x):
     coefs_list = []
-    #for i in range(3):
-        #coefs_list.append(pywt.wavedec2(x[:, :, i], 'db1'))
+    for i in range(3):
+        coefs_list.append(pywt.wavedec2(x[:, :, i], 'db1'))
     return coefs_list
 
 
 def get_image(coefs_list):
     x = np.zeros((64, 64, 3))
-    #for i in range(3):
-        #x[:, :, i] = pywt.waverec2(coefs_list[i], 'db1')
+    for i in range(3):
+        x[:, :, i] = pywt.waverec2(coefs_list[i], 'db1')
     return x
 
 

@@ -18,7 +18,7 @@ def get_full_input(hparams):
         raise NotImplementedError
     image_size = 108
     images = [dcgan_utils.get_image(image_path, image_size) for image_path in image_paths]
-    images = {i: image.reshape([64*64*3]) for (i, image) in enumerate(images)}
+    images = {i: image.reshape([hparams.image_shape*hparams.image_shape*3]) for (i, image) in enumerate(images)}
     return images
 
 

@@ -173,7 +173,7 @@ if __name__ == '__main__':
         #from celebA_input import model_input
         #from celebA_utils import view_image, save_image
     elif HPARAMS.dataset == 'car':
-        HPARAMS.image_shape = (64, 64, 3)
+        HPARAMS.image_shape = (128, 128, 3)
         from car_input import model_input
         from car_utils import view_image, save_image
     else:
