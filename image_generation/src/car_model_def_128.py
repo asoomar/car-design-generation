@@ -20,7 +20,7 @@ from image_generation.car_dcgan import model_def as car_dcgan_model_def
 def dcgan_discrim(x_hat_batch, hparams):
 
     assert hparams.batch_size in [1, 64], 'batch size should be either 64 or 1'
-    x_hat_image = tf.reshape(x_hat_batch, [-1, 64, 64, 3])
+    x_hat_image = tf.reshape(x_hat_batch, [-1, 64, 64, 3]) # changed from 64->128
     all_zeros = tf.zeros([64, 64, 64, 3])
     discrim_input = all_zeros + x_hat_image
 
@@ -40,7 +40,7 @@ def dcgan_discrim(x_hat_batch, hparams):
 def dcgan_gen(z, hparams):
 
     assert hparams.batch_size in [1, 64], 'batch size should be either 64 or 1'
-    z_full = tf.zeros([64, 100]) + z
+    z_full = tf.zeros([128, 100]) + z  #changed from 64->128
 
     model_hparams = car_dcgan_model_def.Hparams()
 

@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="495a56b3-7057-43e1-8bea-59588d22fac4" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/image_generation/scripts/car_reconstruction_dcgan.sh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/image_generation/src/car_model_def_128.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_generation/src/car_estimators.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/src/car_estimators.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_generation/src/car_input.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/src/car_input.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_generation/src/car_model_def.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/src/car_model_def.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_generation/src/dcgan_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/src/dcgan_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/image_generation/src/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/src/project.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_generation/car_dcgan/model_def_128.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/car_dcgan/model_def_128.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/image_generation/src/car_model_def_128.py" beforeDir="false" afterPath="$PROJECT_DIR$/image_generation/src/car_model_def_128.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,48 +14,21 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/src/car_model_def.py">
+        <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/ops.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="470">
-              <caret line="53" column="50" lean-forward="true" selection-end-line="53" selection-end-column="50" />
-              <folding>
-                <element signature="e#356#365#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="179">
+              <caret line="41" column="15" selection-start-line="41" selection-start-column="15" selection-end-line="41" selection-end-column="15" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/src/project.py">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/model_def_128.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-904">
-              <caret line="51" column="56" lean-forward="true" selection-start-line="51" selection-start-column="56" selection-end-line="51" selection-end-column="56" />
+            <state relative-caret-position="2670">
+              <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
               <folding>
-                <element signature="e#0#31#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/src/car_input.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="20" lean-forward="true" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/src/dcgan_utils.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="840">
-              <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
-              <folding>
-                <element signature="e#240#271#0" expanded="true" />
+                <element signature="e#356#379#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -77,54 +44,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/model_def.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="532">
-              <caret line="55" column="26" selection-start-line="55" selection-start-column="26" selection-end-line="55" selection-end-column="26" />
-              <folding>
-                <element signature="e#356#379#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/ops.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/image_generation/src/car_estimators.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="778">
-              <caret line="142" column="45" selection-start-line="142" selection-start-column="45" selection-end-line="142" selection-end-column="45" />
-              <folding>
-                <element signature="e#88#99#0" expanded="true" />
-                <element signature="e#516#652#0" />
-                <element signature="e#678#787#0" />
-                <element signature="e#841#1180#0" />
-                <element signature="e#1247#2003#0" />
-                <element signature="e#2074#2625#0" />
-                <element signature="e#2702#4395#0" />
-                <element signature="e#9484#10183#0" />
-                <element signature="e#10210#10330#0" />
-                <element signature="e#10364#10482#0" />
-                <element signature="e#10515#10999#0" />
-                <element signature="e#11035#11500#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/image_generation/src/car_model_def_128.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="49" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
+            <state relative-caret-position="275">
+              <caret line="46" column="4" lean-forward="true" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="95" />
               <folding>
                 <element signature="e#356#365#0" expanded="true" />
               </folding>
@@ -132,9 +55,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/model_def_128.py">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/image_generation/src/project.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1440">
+              <caret line="51" column="56" lean-forward="true" selection-start-line="51" selection-start-column="56" selection-end-line="51" selection-end-column="56" />
+              <folding>
+                <element signature="e#0#31#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -154,6 +84,7 @@
       <find>get_op</find>
       <find>lasso</find>
       <find>pywt</find>
+      <find>output_channel_dim</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -179,8 +110,8 @@
         <option value="$PROJECT_DIR$/image_generation/src/dcgan_utils.py" />
         <option value="$PROJECT_DIR$/image_generation/src/car_model_def.py" />
         <option value="$PROJECT_DIR$/image_generation/src/car_estimators.py" />
-        <option value="$PROJECT_DIR$/image_generation/src/car_model_def_128.py" />
         <option value="$PROJECT_DIR$/image_generation/car_dcgan/model_def_128.py" />
+        <option value="$PROJECT_DIR$/image_generation/src/car_model_def_128.py" />
       </list>
     </option>
   </component>
@@ -290,12 +221,12 @@
       <workItem from="1557122003154" duration="830000" />
       <workItem from="1557127462827" duration="131000" />
       <workItem from="1557127597800" duration="4610000" />
-      <workItem from="1557209204121" duration="7496000" />
+      <workItem from="1557209204121" duration="11183000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13067000" />
+    <option name="totallyTimeSpent" value="16754000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="975" extended-state="6" />
@@ -420,60 +351,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/image_generation/src/project.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-904">
-          <caret line="51" column="56" lean-forward="true" selection-start-line="51" selection-start-column="56" selection-end-line="51" selection-end-column="56" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_generation/src/car_input.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="20" lean-forward="true" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_generation/src/dcgan_utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="840">
-          <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
-          <folding>
-            <element signature="e#240#271#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_generation/scripts/car_reconstruction_dcgan.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/ops.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="15" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/model_def.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="532">
-          <caret line="55" column="26" selection-start-line="55" selection-start-column="26" selection-end-line="55" selection-end-column="26" />
-          <folding>
-            <element signature="e#356#379#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/image_generation/src/car_estimators.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="778">
@@ -505,10 +382,64 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/image_generation/src/car_input.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="18" column="20" lean-forward="true" selection-start-line="18" selection-start-column="20" selection-end-line="18" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_generation/src/dcgan_utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="840">
+          <caret line="56" column="56" selection-start-line="56" selection-start-column="56" selection-end-line="56" selection-end-column="56" />
+          <folding>
+            <element signature="e#240#271#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/model_def.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="547">
+          <caret line="123" column="44" lean-forward="true" selection-start-line="123" selection-start-column="44" selection-end-line="123" selection-end-column="44" />
+          <folding>
+            <element signature="e#356#379#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/ops.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="179">
+          <caret line="41" column="15" selection-start-line="41" selection-start-column="15" selection-end-line="41" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_generation/src/project.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1440">
+          <caret line="51" column="56" lean-forward="true" selection-start-line="51" selection-start-column="56" selection-end-line="51" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/image_generation/scripts/car_reconstruction_dcgan.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="15" column="18" selection-start-line="15" selection-start-column="18" selection-end-line="15" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/image_generation/src/car_model_def_128.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="49" selection-start-line="31" selection-start-column="49" selection-end-line="31" selection-end-column="49" />
+        <state relative-caret-position="275">
+          <caret line="46" column="4" lean-forward="true" selection-start-line="46" selection-start-column="4" selection-end-line="46" selection-end-column="95" />
           <folding>
             <element signature="e#356#365#0" expanded="true" />
           </folding>
@@ -516,7 +447,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/image_generation/car_dcgan/model_def_128.py">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2670">
+          <caret line="178" column="22" selection-start-line="178" selection-start-column="22" selection-end-line="178" selection-end-column="22" />
+          <folding>
+            <element signature="e#356#379#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
   <component name="masterDetails">

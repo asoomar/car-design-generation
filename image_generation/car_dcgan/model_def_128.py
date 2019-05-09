@@ -13,6 +13,8 @@ import tensorflow as tf
 
 import ops
 
+EPSILON = .00005
+WEIGHT_INIT_STDDEV = .02
 
 class Hparams(object):
     def __init__(self):
@@ -27,63 +29,176 @@ class Hparams(object):
 
 def generator(hparams, z, train, reuse):
 
-    if reuse:
-        tf.get_variable_scope().reuse_variables()
+    with tf.variable_scope('generator', reuse):
+        # 8x8x1024
+        fully_connected = tf.layers.dense(z, 8 * 8 * 1024)
+        fully_connected = tf.reshape(fully_connected, (-1, 8, 8, 1024))
+        fully_connected = tf.nn.leaky_relu(fully_connected)
 
-    output_size = 64
-    s = output_size
-    s2, s4, s8, s16 = int(s/2), int(s/4), int(s/8), int(s/16)
+        # 8x8x1024 -> 16x16x512
+        trans_conv1 = tf.layers.conv2d_transpose(inputs=fully_connected,
+                                                 filters=512,
+                                                 kernel_size=[5, 5],
+                                                 strides=[2, 2],
+                                                 padding="SAME",
+                                                 kernel_initializer=tf.truncated_normal_initializer(
+                                                     stddev=WEIGHT_INIT_STDDEV),
+                                                 name="trans_conv1")
+        batch_trans_conv1 = tf.layers.batch_normalization(inputs=trans_conv1,
+                                                          training=train,
+                                                          epsilon=EPSILON,
+                                                          name="batch_trans_conv1")
+        trans_conv1_out = tf.nn.leaky_relu(batch_trans_conv1,
+                                           name="trans_conv1_out")
 
-    g_bn0 = ops.batch_norm(name='g_bn0')
-    g_bn1 = ops.batch_norm(name='g_bn1')
-    g_bn2 = ops.batch_norm(name='g_bn2')
-    g_bn3 = ops.batch_norm(name='g_bn3')
+        # 16x16x512 -> 32x32x256
+        trans_conv2 = tf.layers.conv2d_transpose(inputs=trans_conv1_out,
+                                                 filters=256,
+                                                 kernel_size=[5, 5],
+                                                 strides=[2, 2],
+                                                 padding="SAME",
+                                                 kernel_initializer=tf.truncated_normal_initializer(
+                                                     stddev=WEIGHT_INIT_STDDEV),
+                                                 name="trans_conv2")
+        batch_trans_conv2 = tf.layers.batch_normalization(inputs=trans_conv2,
+                                                          training=train,
+                                                          epsilon=EPSILON,
+                                                          name="batch_trans_conv2")
+        trans_conv2_out = tf.nn.leaky_relu(batch_trans_conv2,
+                                           name="trans_conv2_out")
 
-    # project `z` and reshape
-    h0 = tf.reshape(ops.linear(z, hparams.gf_dim * 8 * s16 * s16, 'g_h0_lin'), [-1, s16, s16, hparams.gf_dim * 8])
-    h0 = tf.nn.relu(g_bn0(h0, train=train))
+        # 32x32x256 -> 64x64x128
+        trans_conv3 = tf.layers.conv2d_transpose(inputs=trans_conv2_out,
+                                                 filters=128,
+                                                 kernel_size=[5, 5],
+                                                 strides=[2, 2],
+                                                 padding="SAME",
+                                                 kernel_initializer=tf.truncated_normal_initializer(
+                                                     stddev=WEIGHT_INIT_STDDEV),
+                                                 name="trans_conv3")
+        batch_trans_conv3 = tf.layers.batch_normalization(inputs=trans_conv3,
+                                                          training=train,
+                                                          epsilon=EPSILON,
+                                                          name="batch_trans_conv3")
+        trans_conv3_out = tf.nn.leaky_relu(batch_trans_conv3,
+                                           name="trans_conv3_out")
 
-    h1 = ops.deconv2d(h0, [hparams.batch_size, s8, s8, hparams.gf_dim * 4], name='g_h1')
-    h1 = tf.nn.relu(g_bn1(h1, train=train))
+        # 64x64x128 -> 128x128x64
+        trans_conv4 = tf.layers.conv2d_transpose(inputs=trans_conv3_out,
+                                                 filters=64,
+                                                 kernel_size=[5, 5],
+                                                 strides=[2, 2],
+                                                 padding="SAME",
+                                                 kernel_initializer=tf.truncated_normal_initializer(
+                                                     stddev=WEIGHT_INIT_STDDEV),
+                                                 name="trans_conv4")
+        batch_trans_conv4 = tf.layers.batch_normalization(inputs=trans_conv4,
+                                                          training=train,
+                                                          epsilon=EPSILON,
+                                                          name="batch_trans_conv4")
+        trans_conv4_out = tf.nn.leaky_relu(batch_trans_conv4,
+                                           name="trans_conv4_out")
 
-    h2 = ops.deconv2d(h1, [hparams.batch_size, s4, s4, hparams.gf_dim * 2], name='g_h2')
-    h2 = tf.nn.relu(g_bn2(h2, train=train))
+        # 128x128x64 -> 128x128x3
+        logits = tf.layers.conv2d_transpose(inputs=trans_conv4_out,
+                                            filters=3,
+                                            kernel_size=[5, 5],
+                                            strides=[1, 1],
+                                            padding="SAME",
+                                            kernel_initializer=tf.truncated_normal_initializer(
+                                                stddev=WEIGHT_INIT_STDDEV),
+                                            name="logits")
+        out = tf.tanh(logits, name="out")
+        return out
 
-    h3 = ops.deconv2d(h2, [hparams.batch_size, s2, s2, hparams.gf_dim * 1], name='g_h3')
-    h3 = tf.nn.relu(g_bn3(h3, train=train))
-
-    h4 = ops.deconv2d(h3, [hparams.batch_size, s, s, hparams.c_dim], name='g_h4')
-    x_gen = tf.nn.tanh(h4)
-
-    return x_gen
 
 
 def discriminator(hparams, x, train, reuse):
 
-    if reuse:
-        tf.get_variable_scope().reuse_variables()
+    with tf.variable_scope("discriminator", reuse=reuse):
+        # 128*128*3 -> 64x64x64
+        conv1 = tf.layers.conv2d(inputs=x,
+                                 filters=64,
+                                 kernel_size=[5, 5],
+                                 strides=[2, 2],
+                                 padding="SAME",
+                                 kernel_initializer=tf.truncated_normal_initializer(stddev=WEIGHT_INIT_STDDEV),
+                                 name='conv1')
+        batch_norm1 = tf.layers.batch_normalization(conv1,
+                                                    training=train,
+                                                    epsilon=EPSILON,
+                                                    name='batch_norm1')
+        conv1_out = tf.nn.leaky_relu(batch_norm1,
+                                     name="conv1_out")
 
-    d_bn1 = ops.batch_norm(name='d_bn1')
-    d_bn2 = ops.batch_norm(name='d_bn2')
-    d_bn3 = ops.batch_norm(name='d_bn3')
+        # 64x64x64-> 32x32x128
+        conv2 = tf.layers.conv2d(inputs=conv1_out,
+                                 filters=128,
+                                 kernel_size=[5, 5],
+                                 strides=[2, 2],
+                                 padding="SAME",
+                                 kernel_initializer=tf.truncated_normal_initializer(stddev=WEIGHT_INIT_STDDEV),
+                                 name='conv2')
+        batch_norm2 = tf.layers.batch_normalization(conv2,
+                                                    training=train,
+                                                    epsilon=EPSILON,
+                                                    name='batch_norm2')
+        conv2_out = tf.nn.leaky_relu(batch_norm2,
+                                     name="conv2_out")
 
-    h0 = ops.lrelu(ops.conv2d(x, hparams.df_dim, name='d_h0_conv'))
+        # 32x32x128 -> 16x16x256
+        conv3 = tf.layers.conv2d(inputs=conv2_out,
+                                 filters=256,
+                                 kernel_size=[5, 5],
+                                 strides=[2, 2],
+                                 padding="SAME",
+                                 kernel_initializer=tf.truncated_normal_initializer(stddev=WEIGHT_INIT_STDDEV),
+                                 name='conv3')
+        batch_norm3 = tf.layers.batch_normalization(conv3,
+                                                    training=train,
+                                                    epsilon=EPSILON,
+                                                    name='batch_norm3')
+        conv3_out = tf.nn.leaky_relu(batch_norm3,
+                                     name="conv3_out")
 
-    h1 = ops.conv2d(h0, hparams.df_dim * 2, name='d_h1_conv')
-    h1 = ops.lrelu(d_bn1(h1, train=train))
+        # 16x16x256 -> 16x16x512
+        conv4 = tf.layers.conv2d(inputs=conv3_out,
+                                 filters=512,
+                                 kernel_size=[5, 5],
+                                 strides=[1, 1],
+                                 padding="SAME",
+                                 kernel_initializer=tf.truncated_normal_initializer(stddev=WEIGHT_INIT_STDDEV),
+                                 name='conv4')
+        batch_norm4 = tf.layers.batch_normalization(conv4,
+                                                    training=train,
+                                                    epsilon=EPSILON,
+                                                    name='batch_norm4')
+        conv4_out = tf.nn.leaky_relu(batch_norm4,
+                                     name="conv4_out")
 
-    h2 = ops.conv2d(h1, hparams.df_dim * 4, name='d_h2_conv')
-    h2 = ops.lrelu(d_bn2(h2, train=train))
+        # 16x16x512 -> 8x8x1024
+        conv5 = tf.layers.conv2d(inputs=conv4_out,
+                                 filters=1024,
+                                 kernel_size=[5, 5],
+                                 strides=[2, 2],
+                                 padding="SAME",
+                                 kernel_initializer=tf.truncated_normal_initializer(stddev=WEIGHT_INIT_STDDEV),
+                                 name='conv5')
+        batch_norm5 = tf.layers.batch_normalization(conv5,
+                                                    training=train,
+                                                    epsilon=EPSILON,
+                                                    name='batch_norm5')
+        conv5_out = tf.nn.leaky_relu(batch_norm5,
+                                     name="conv5_out")
 
-    h3 = ops.conv2d(h2, hparams.df_dim * 8, name='d_h3_conv')
-    h3 = ops.lrelu(d_bn3(h3, train=train))
+        flatten = tf.reshape(conv5_out, (-1, 8 * 8 * 1024))
+        logits = tf.layers.dense(inputs=flatten,
+                                 units=1,
+                                 activation=None)
+        out = tf.sigmoid(logits)
+        return out, logits
 
-    h4 = ops.linear(tf.reshape(h3, [hparams.batch_size, -1]), 1, 'd_h3_lin')
 
-    d_logit = h4
-    d = tf.nn.sigmoid(d_logit)
-
-    return d, d_logit
 
 
 def gen_restore_vars():
