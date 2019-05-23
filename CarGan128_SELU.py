@@ -25,13 +25,13 @@ random.seed(manualSeed)
 torch.manual_seed(manualSeed)
 
 # Root directory for dataset
+#Current directory assumes the usage of paperspace cloud gpu
 dataroot ="/storage/128images"
 
 # Number of workers for dataloader
 workers = 2
 
 # Batch size during training
-# batch_size = 128
 batch_size = 128
 
 # Spatial size of training images. All images will be resized to this
@@ -86,11 +86,10 @@ plt.axis("off")
 plt.title("Training Images")
 plt.imshow(np.transpose(vutils.make_grid(real_batch[0].to(device)[:64], padding=2, normalize=True).cpu(),(1,2,0)))
 
-dataset
-
-device
+print(device)
 
 # custom weights initialization called on netG and netD
+# used when training a new DCGAN from scratch
 def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
@@ -99,8 +98,8 @@ def weights_init(m):
         nn.init.normal_(m.weight.data, 1.0, 0.02)
         nn.init.constant_(m.bias.data, 0)
 
-# Generator Code
 
+# Generator Code
 class Generator(nn.Module):
     def __init__(self, ngpu):
         super(Generator, self).__init__()
@@ -108,28 +107,18 @@ class Generator(nn.Module):
         self.main = nn.Sequential(
             # input is Z, going into a convolution
             nn.ConvTranspose2d(     nz, ngf * 16, 4, 1, 0, bias=False),
-            # nn.BatchNorm2d(ngf * 16),
-            # nn.ReLU(True),
             nn.SELU(inplace=True),
             # state size. (ngf*16) x 4 x 4
             nn.ConvTranspose2d(ngf * 16, ngf * 8, 4, 2, 1, bias=False),
-            # nn.BatchNorm2d(ngf * 8),
-            # nn.ReLU(True),
             nn.SELU(inplace=True),
             # state size. (ngf*8) x 8 x 8
             nn.ConvTranspose2d(ngf * 8, ngf * 4, 4, 2, 1, bias=False),
-            # nn.BatchNorm2d(ngf * 4),
-            # nn.ReLU(True),
             nn.SELU(inplace=True),
             # state size. (ngf*4) x 16 x 16
             nn.ConvTranspose2d(ngf * 4, ngf * 2, 4, 2, 1, bias=False),
-            # nn.BatchNorm2d(ngf * 2),
-            # nn.ReLU(True),
             nn.SELU(inplace=True),
             # state size. (ngf*2) x 32 x 32
             nn.ConvTranspose2d(ngf * 2,     ngf, 4, 2, 1, bias=False),
-            # nn.BatchNorm2d(ngf),
-            # nn.ReLU(True),
             nn.SELU(inplace=True),
             # state size. (ngf) x 64 x 64
             nn.ConvTranspose2d(    ngf,      nc, 4, 2, 1, bias=False),
@@ -139,6 +128,9 @@ class Generator(nn.Module):
 
     def forward(self, input):
         return self.main(input)
+
+
+# uncomment the section below if you are training from scratch
 
 # # Create the generator
 # netG = Generator(ngpu).to(device)
@@ -161,27 +153,18 @@ class Discriminator(nn.Module):
         self.main = nn.Sequential(
             # input is (nc) x 128 x 128
             nn.Conv2d(nc, ndf, 4, stride=2, padding=1, bias=False),
-            # nn.LeakyReLU(0.2, inplace=True),
             nn.SELU(inplace=True),
             # state size. (ndf) x 64 x 64
             nn.Conv2d(ndf, ndf * 2, 4, stride=2, padding=1, bias=False),
-            # nn.BatchNorm2d(ndf * 2),
-            # nn.LeakyReLU(0.2, inplace=True),
             nn.SELU(inplace=True),
             # state size. (ndf*2) x 32 x 32
             nn.Conv2d(ndf * 2, ndf * 4, 4, stride=2, padding=1, bias=False),
-            # nn.BatchNorm2d(ndf * 4),
-            # nn.LeakyReLU(0.2, inplace=True),
             nn.SELU(inplace=True),
             # state size. (ndf*4) x 16 x 16
             nn.Conv2d(ndf * 4, ndf * 8, 4, stride=2, padding=1, bias=False),
-            # nn.BatchNorm2d(ndf * 8),
-            # nn.LeakyReLU(0.2, inplace=True),
             nn.SELU(inplace=True),
             # state size. (ndf*8) x 8 x 8
             nn.Conv2d(ndf * 8, ndf * 16, 4, stride=2, padding=1, bias=False),
-            # nn.BatchNorm2d(ndf * 16),
-            # nn.LeakyReLU(0.2, inplace=True),
             nn.SELU(inplace=True),
             # state size. (ndf*16) x 4 x 4
             nn.Conv2d(ndf * 16, 1, 4, stride=1, padding=0, bias=False),
@@ -191,6 +174,8 @@ class Discriminator(nn.Module):
 
     def forward(self, input):
         return self.main(input)
+
+# uncomment the section below if you are training from scratch
 
 # # Create the Discriminator
 # netD = Discriminator(ngpu).to(device)
@@ -206,16 +191,23 @@ class Discriminator(nn.Module):
 # # Print the model
 # print(netD)
 
+
+
+# this section loads a pre-existing DCGAN generator, discriminator models
+# as well as the optimizers
+# comment out this entire section if you wish to train from scratch
 netG = Generator(ngpu).to(device)
 netD = Discriminator(ngpu).to(device)
 optimizerD = optim.Adam(netD.parameters(), lr=lr_dis, betas=(0.5, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr_gen, betas=(0.5, 0.999))
-
-checkpoint = torch.load("/storage/128_CarGan_epoch120_selu.tar")
+checkpoint = torch.load("/storage/128_CarGan_epoch120_selu.tar") #path of saved models
 netG.load_state_dict(checkpoint['netG_state_dict'])
 netD.load_state_dict(checkpoint['netD_state_dict'])
 optimizerD.load_state_dict(checkpoint['optimizerD_state_dict'])
 optimizerG.load_state_dict(checkpoint['optimizerG_state_dict'])
+
+
+
 
 # Initialize BCELoss function
 criterion = nn.BCELoss()
@@ -229,9 +221,12 @@ real_label = 1
 fake_label = 0
 
 # Setup Adam optimizers for both G and D
+# comment out this section if you are training from pre-existing models
 optimizerD = optim.Adam(netD.parameters(), lr=lr_dis, betas=(beta1, 0.999))
 optimizerG = optim.Adam(netG.parameters(), lr=lr_gen, betas=(beta1, 0.999))
 
+
+# Comment thia section if you want to train from scratch
 netG.train()
 netD.train()
 print(netG)
@@ -322,16 +317,17 @@ for epoch in range(num_epochs):
         iters += 1
 
 
+    # save models after every iteration
     fig = plt.figure(figsize = (12,12))
     ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=False)] for i in img_list]
-    plt.savefig("/artifacts/" + str(epoch) + ".png")
+    plt.savefig("/artifacts/" + str(epoch) + ".png") #save image grid in file path
     plt.close()
     torch.save({
         'netG_state_dict': netG.state_dict(),
         'netD_state_dict': netD.state_dict(),
         'optimizerG_state_dict': optimizerG.state_dict(),
         'optimizerD_state_dict': optimizerD.state_dict()
-        }, '/artifacts/128_CarGan_epoch' + str(epoch) + '.tar')
+        }, '/artifacts/128_CarGan_epoch' + str(epoch) + '.tar') #save models and optimizers in file path
 
 
 
@@ -345,25 +341,7 @@ plt.ylabel("Loss")
 plt.legend()
 plt.show()
 
-'''
-#%%capture
-fig = plt.figure(figsize=(8,8))
-plt.axis("off")
-ims = [[plt.imshow(np.transpose(i,(1,2,0)), animated=True)] for i in img_list]
-ani = animation.ArtistAnimation(fig, ims, interval=1000, repeat_delay=1000, blit=True)
-
-HTML(ani.to_jshtml())
-'''
-
-
-
-torch.save({
-    'netG_state_dict': netG.state_dict(),
-    'netD_state_dict': netD.state_dict(),
-    'optimizerG_state_dict': optimizerG.state_dict(),
-    'optimizerD_state_dict': optimizerD.state_dict()
-    }, '/artifacts/128_CarGan.tar')
-
+# used to show final grid of images
 # sample = netG(fixed_noise).detach().cpu()
 # vutils.make_grid(sample, padding=2, normalize=True)
 # plt.imshow(np.transpose((1,2,0)))
