@@ -1,7 +1,7 @@
 # Car Design Generation with DCGANs
 For an in-depth article of this project, go to https://medium.com/@alisoomar/adversarial-networks-for-car-image-generation-9bdf5977bec8
 
-In this project, we generated images of new car models through Deep Convolutional General Adversarial Networks (DCGANs). We wanted to explore the possibilities of generative networks by trying to create new marketable products, and we decided on cars as we found good amounts of scrapable data online. After gathering our data, we trained and tested different models, learning how to avoid many different GAN issues that lead to unusable results. Then, we explored different standard GAN problems like inpainting and image restoration. Finally, we suggest where changes and improvements could be made to our project if someone were to further explore the field.
+In this project, we generated images of new car models through Deep Convolutional Generative Adversarial Networks (DCGANs). We wanted to explore the possibilities of generative networks by trying to create new marketable products, and we decided on cars as we found good amounts of scrapable data online. After gathering our data, we trained and tested different models, learning how to avoid many different GAN issues that lead to unusable results. Then, we explored different standard GAN problems like inpainting and image restoration. Finally, we suggest where changes and improvements could be made to our project if someone were to further explore the field.
 
 
 
